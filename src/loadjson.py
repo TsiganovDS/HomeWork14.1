@@ -1,11 +1,13 @@
 import json
-import os
 from typing import Any
 
-from src.category import Product, Category
+from config import file_path
+from src.category import Category
+from src.product import Product
 
 
 def load_data_from_json(file_path: str) -> list[Any]:
+    """Функция читает файл и создает объекты классов."""
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
@@ -37,17 +39,15 @@ def load_data_from_json(file_path: str) -> list[Any]:
     return categories
 
 
-file_path = os.path.join(os.path.dirname(__file__), "..", "data", "products.json")
-
 categories = load_data_from_json(file_path)
 if categories:
     for category in categories:
         print(
-            f"Категория: {category.name}, Описание: {category.description},"
-            f"Количество продуктов: {len(category.products)}"
+            f"Категория: {category.name}, Описание: {category.description}."
+            f" Количество продуктов: {len(category.products)}"
         )
         for product in category.products:
-            print(
-                f"Продукт: {product.name}, Описание: {product.description}, Цена: {product.price},"
-                f"Количество: {product.quantity}"
-            )
+            if isinstance(product, Product):
+                print(product.name)
+            else:
+                print(f"Неверный формат продукта: {product}")
