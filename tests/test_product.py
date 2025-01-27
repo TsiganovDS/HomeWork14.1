@@ -21,7 +21,7 @@ def test_product_count() -> None:
     category = Category("Смартфоны", "Описание категории", [product1, product2, product3])
 
     # Проверяем количество продуктов в категории
-    assert category.product_count == 20
+    assert category.product_count == 27
 
 
 def test_price_setter_positive() -> None:
@@ -65,3 +65,19 @@ def test_new_product() -> None:
 def test_repr() -> None:
     product = Product("Товар", "Описание", 100.0, 10)
     assert repr(product) == "Товар, 100.0 руб. Остаток: 10 шт."
+
+
+def test_add_products():
+    product1 = Product("Товар 1", "Описание", 100, 5)
+    product2 = Product("Товар 2", "Описание", 300, 10)
+
+    total_value = product1.__add__(product2)
+
+    assert total_value == 3500
+
+
+def test_add_invalid_product():
+    product1 = Product("Товар 1", "Описание", 500, 3)
+    result = product1.__add__("Некорректный продукт")
+
+    assert result is NotImplemented
