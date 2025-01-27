@@ -1,3 +1,4 @@
+from src.categoryIterator import CategoryIterator
 from src.product import Product
 
 
@@ -27,3 +28,12 @@ class Category:
     def product(self) -> list:
         # Формируем список строк с информацией о каждом продукте
         return [f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт." for product in self.__products]
+
+    def __str__(self) -> str:
+        counter = 0
+        for product in self.__products:
+            counter += product.quantity
+        return f"{self.name}, {counter} шт."
+
+    def __iter__(self) -> CategoryIterator:
+        return CategoryIterator(self)

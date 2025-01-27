@@ -1,3 +1,5 @@
+import pytest
+
 from src.category import Category
 from src.product import Product
 
@@ -22,3 +24,26 @@ def test_category_count() -> None:
     category = Category("Смартфоны", "Описание категории", [product1, product2, product3])
 
     assert category.product_count == 9
+
+
+def test_add_product():
+    product3 = Product("Товар 3", "Описание категории", 7, 3)
+    category = Category("Смартфоны", "Описание категории", [product3])
+
+    category.add_product(product3)
+
+    assert len(category.products) == 2
+    assert Category.product_count == 11
+
+
+def test_add_invalid_product():
+    product3 = Product("Товар 3", "Описание категории", 7, 3)
+    category = Category("Смартфоны", "Описание категории", [product3])
+    with pytest.raises(TypeError):
+        category.add_product("Некорректный продукт")
+
+
+def test_str_method():
+    product3 = Product("Товар 3", "Описание категории", 7, 3)
+    category = Category("Смартфоны", "Описание категории", [product3])
+    assert str(category) == "Смартфоны, 3 шт."

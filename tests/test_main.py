@@ -41,8 +41,8 @@ def test_category_class_attributes() -> None:
     category1 = Category("Смартфоны", "Описание", [product1, product2, product3])
     category2 = Category("Гаджеты", "Описание", [product4])
 
-    assert Category.category_count == 8
-    assert Category.product_count == 17
+    assert Category.category_count == 12
+    assert Category.product_count == 24
 
-    assert category1.product_count == 17
-    assert category2.product_count == 17
+    assert category1.product_count == 24
+    assert category2.product_count == 24
