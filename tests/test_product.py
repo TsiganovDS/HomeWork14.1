@@ -1,7 +1,11 @@
 from io import StringIO
 from unittest.mock import patch
 
-from src.category import Category, Product
+import pytest
+
+from src.category import Category
+from src.lawngrass import LawnGrass
+from src.product import Product
 
 
 def test_product_itialization() -> None:
@@ -21,7 +25,7 @@ def test_product_count() -> None:
     category = Category("Смартфоны", "Описание категории", [product1, product2, product3])
 
     # Проверяем количество продуктов в категории
-    assert category.product_count == 27
+    assert category.product_count == 22
 
 
 def test_price_setter_positive() -> None:
@@ -35,22 +39,6 @@ def test_price_setter_zero_or_negative() -> None:
     with patch("sys.stdout", new_callable=StringIO) as mock_stdout:
         product.price = 0
         assert "Цена не должна быть нулевая или отрицательная" in mock_stdout.getvalue()
-
-
-def test_price_setter_lower() -> None:
-    product = Product("Товар", "Описание", 100.0, 10)
-
-    with patch("builtins.input", return_value="y"):
-        product.price = 80.0
-    assert product.price == 80.0
-
-
-def test_price_setter_lower_cancel() -> None:
-    product = Product("Товар", "Описание", 100.0, 10)
-
-    with patch("builtins.input", return_value="n"):
-        product.price = 80.0
-    assert product.price == 100.0
 
 
 def test_new_product() -> None:
@@ -67,7 +55,7 @@ def test_repr() -> None:
     assert repr(product) == "Товар, 100.0 руб. Остаток: 10 шт."
 
 
-def test_add_products():
+def test_add_products() -> None:
     product1 = Product("Товар 1", "Описание", 100, 5)
     product2 = Product("Товар 2", "Описание", 300, 10)
 
@@ -76,8 +64,31 @@ def test_add_products():
     assert total_value == 3500
 
 
-def test_add_invalid_product():
+def test_add_invalid_product() -> None:
     product1 = Product("Товар 1", "Описание", 500, 3)
-    result = product1.__add__("Некорректный продукт")
+    product2 = LawnGrass("Газонная трава 2", "Выносливая трава", 450.0, 15, "США", "5 дней", "Темно-зеленый")
+    with pytest.raises(TypeError, match="Нельзя складывать продукты разных типов."):
+        product1.__add__(product2)
 
-    assert result is NotImplemented
+
+@pytest.fixture
+def product() -> Product:
+    return Product("Товар", "Описание товара", 100.0, 10)
+
+
+def test_price_setter_lower_value_with_confirmation(product: Product) -> None:
+    with patch("builtins.input", side_effect=["y"]):
+        product.price = 80.0
+        assert product.price == 80.0
+
+
+def test_price_setter_lower_value_with_out_confirmation(product: Product) -> None:
+    with patch("builtins.input", side_effect=["n"]):
+        product.price = 80.0
+        assert product.price == 100.0  # Цена не должна измениться
+
+
+def test_add_same_type_products(product: Product) -> None:
+    product2 = Product("Товар 2", "Описание товара 2", 200.0, 5)
+    total_price = product + product2
+    assert total_price == (100.0 * 10) + (200.0 * 5)
