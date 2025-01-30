@@ -1,4 +1,3 @@
-from src.categoryIterator import CategoryIterator
 from src.product import Product
 
 
@@ -34,6 +33,3 @@ class Category:
         for product in self.__products:
             counter += product.quantity
         return f"{self.name}, {counter} шт."
-
-    def __iter__(self) -> CategoryIterator:
-        return CategoryIterator(self)
