@@ -39,14 +39,13 @@ class Product:
         quantity = product_data.get("quantity")
         return cls(name, description, price, quantity)
 
+    def __add__(self, other: "Product") -> float:
+        if type(self) is not type(other):
+            raise TypeError("Нельзя складывать продукты разных типов.")
+        return (self.price * self.quantity) + (other.price * other.quantity)
+
     def __repr__(self) -> str:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __str__(self) -> str:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
-
-    def __add__(self, other: "Product") -> float:
-        if isinstance(other, Product):
-            total_value = (self.price * self.quantity) + (other.price * other.quantity)
-            return total_value
-        return NotImplemented
