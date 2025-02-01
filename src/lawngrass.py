@@ -1,7 +1,8 @@
+from src.BaseProduct import Mixin
 from src.product import Product
 
 
-class LawnGrass(Product):
+class LawnGrass(Product, Mixin):
 
     def __init__(
         self,

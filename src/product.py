@@ -1,13 +1,16 @@
 from typing import Any
 
+from src.BaseProduct import BaseProduct, Mixin
 
-class Product:
 
-    def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
+class Product(Mixin, BaseProduct):
+
+    def __init__(self, name: str, description: str, price: float, quantity: int, *args, **kwargs) -> None:
         self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__()
 
     @property
     def price(self) -> float:
@@ -45,7 +48,7 @@ class Product:
         return (self.price * self.quantity) + (other.price * other.quantity)
 
     def __repr__(self) -> str:
-        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+        return f"{self.name}; {self.description}; {self.price}; {self.quantity} шт."
 
     def __str__(self) -> str:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."

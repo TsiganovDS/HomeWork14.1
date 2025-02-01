@@ -1,7 +1,8 @@
+from src.BaseProduct import Mixin
 from src.product import Product
 
 
-class Smartphone(Product):
+class Smartphone(Product, Mixin):
     def __init__(
         self,
         name: str,
@@ -18,3 +19,7 @@ class Smartphone(Product):
         self.model = model
         self.memory = memory
         self.color = color
+
+
+    def __str__(self) -> str:
+        return f"{self.name}; {self.description}; {self.price}; {self.quantity} шт."

@@ -52,7 +52,7 @@ def test_new_product() -> None:
 
 def test_repr() -> None:
     product = Product("Товар", "Описание", 100.0, 10)
-    assert repr(product) == "Товар, 100.0 руб. Остаток: 10 шт."
+    assert repr(product) == "Товар; Описание; 100.0; 10 шт."
 
 
 def test_add_products() -> None:
