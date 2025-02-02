@@ -20,6 +20,5 @@ class Smartphone(Product, Mixin):
         self.memory = memory
         self.color = color
 
-
     def __str__(self) -> str:
         return f"{self.name}; {self.description}; {self.price}; {self.quantity} шт."

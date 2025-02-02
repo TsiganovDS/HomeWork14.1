@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
+
 class BaseProduct(ABC):
     @abstractmethod
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     @property
@@ -29,8 +30,8 @@ class BaseProduct(ABC):
 class Mixin:
     def __init__(self, *args, **kwargs) -> None:
         self.class_name = self.__class__.__name__
-        self.params = ', '.join(repr(arg) for arg in args)
+        self.params = ", ".join(repr(arg) for arg in args)
         super().__init__()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.class_name}({self.params})"

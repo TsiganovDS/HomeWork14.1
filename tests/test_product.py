@@ -25,7 +25,7 @@ def test_product_count() -> None:
     category = Category("Смартфоны", "Описание категории", [product1, product2, product3])
 
     # Проверяем количество продуктов в категории
-    assert category.product_count == 22
+    assert category.product_count == 30
 
 
 def test_price_setter_positive() -> None:

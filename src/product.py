@@ -5,7 +5,9 @@ from src.BaseProduct import BaseProduct, Mixin
 
 class Product(Mixin, BaseProduct):
 
-    def __init__(self, name: str, description: str, price: float, quantity: int, *args, **kwargs) -> None:
+    def __init__(self, name: str, description: str, price: float, quantity: int) -> None:
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен.")
         self.name = name
         self.description = description
         self.__price = price

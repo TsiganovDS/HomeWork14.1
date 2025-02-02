@@ -48,6 +48,7 @@ def test_str_method() -> None:
     category = Category("Смартфоны", "Описание категории", [product3])
     assert str(category) == "Смартфоны, 3 шт."
 
+
 def test_category_class_attributes() -> None:
 
     product1 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
@@ -64,3 +65,31 @@ def test_category_class_attributes() -> None:
     assert category1.product_count == 17
     assert category2.product_count == 17
 
+
+def test_middle_price_no_products():
+    """Тест для случая, когда в категории нет товаров."""
+    category = Category(name="Тестовая категория", description="Описание", products=[])
+    assert category.middle_price() == 0.0
+
+
+def test_middle_price_one_product():
+    """Тест для случая, когда в категории один товар."""
+    product = Product(name="Товар 1", description="Описание товара 1", price=100.0, quantity=1)
+    category = Category(name="Тестовая категория", description="Описание", products=[product])
+    category.add_product(product)
+    assert category.middle_price() == 100.0
+
+
+def test_middle_price_multiple_products():
+    """Тест для случая, когда в категории несколько товаров."""
+    product1 = Product(name="Товар 1", description="Описание товара 1", price=100.0, quantity=1)
+    product2 = Product(name="Товар 2", description="Описание товара 2", price=200.0, quantity=2)
+    product3 = Product(name="Товар 3", description="Описание товара 3", price=300.0, quantity=3)
+
+    category = Category(name="Тестовая категория", description="Описание", products=[product1, product2, product3])
+    category.add_product(product1)
+    category.add_product(product2)
+    category.add_product(product3)
+
+    expected_average_price = round((100.0 + 200.0 + 300.0) / 3, 2)
+    assert category.middle_price() == expected_average_price
